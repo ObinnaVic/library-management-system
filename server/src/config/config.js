@@ -1,5 +1,4 @@
 const dotenv = require("dotenv");
-const process = require("process");
 
 const Config = dotenv.config();
 
@@ -14,6 +13,3 @@ module.exports = {
     Config
 };
 
-
-//TPeJJabLH5z9NO5H
-// mongodb+srv://librarymanager:<password>@library.dwmlmmv.mongodb.net/?retryWrites=true&w=majority&appName=library
