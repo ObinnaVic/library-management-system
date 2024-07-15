@@ -15,7 +15,7 @@ const app = express();
   try {
     // MongoDB's configuration and connection
     
-    await db.connectToDatabase(); //NOTE: Comment this connection out during testing
+    // await db.connectToDatabase(); //NOTE: Comment this connection out during testing
 
     // set security HTTP headers
     app.use(helmet());
