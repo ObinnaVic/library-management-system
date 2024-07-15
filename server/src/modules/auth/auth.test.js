@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { faker } = require("@faker-js/faker");
 const User = require("../user/user.model");
-const app = require("../../app");
+const app = require("../../../index");
 const {
   CREATED,
   BAD_REQUEST,
