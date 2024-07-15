@@ -76,19 +76,20 @@ This is my submission project of a library management system which aids the effe
 `APPLICATION INSTALLATION GUIDE`
 
 In the project directory, you can run:
-yarn install or npm install 
+
+`yarn install or npm install` 
 Install node and other dependencies. 
 
-yarn start or npm start
+`yarn start or npm start`
 Runs the app in the development mode.
 Open http://localhost:8001/ to view it in the browser.
 You will also see any errors in the console.
 
-yarn test or npm test
+`yarn test or npm test`
 Launches the test runner in the interactive watch mode.
 Jest, Supertest and Fakerjs is used for testing purposes.  
  
-yarn build or npm build
+`yarn build or npm build`
 Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 Your app is ready!
