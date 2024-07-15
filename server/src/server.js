@@ -1,10 +1,10 @@
 const app = require("./app.js");
-const https = require("https");
+const http = require("https");
 const Config = require("./config/config.js");
 const process = require("process");
 const { connectToDatabase } = require("./db.js");
 
-const server = https.createServer(app);
+const server = http.createServer(app);
 connectToDatabase().then(() => {
   // Start the server after successful database connection
   server.listen(Config.APP_PORT, () => {
