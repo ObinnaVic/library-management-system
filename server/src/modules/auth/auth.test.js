@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { faker } = require("@faker-js/faker");
 const User = require("../user/user.model");
-const app = require("../../../index");
+const app = require("../../app");
 const {
   CREATED,
   BAD_REQUEST,
@@ -14,7 +14,6 @@ const {
 } = require("http-status");
 const { connectToDatabase, disconnectDatabase } = require("../../db");
 
-
 //Authentication, register, login and logout tests
 describe("Auth Routes", () => {
   let adminUser;
@@ -22,10 +21,10 @@ describe("Auth Routes", () => {
     await connectToDatabase();
     adminUser = {
       firstName: faker.person.firstName(), //random name
-      lastName: faker.person.lastName(), 
+      lastName: faker.person.lastName(),
       email: faker.internet.email(), //random email
       password: faker.internet.password(), //random password
-      role: "Admin"
+      role: "Admin",
     };
   });
 
@@ -93,5 +92,3 @@ describe("Auth Routes", () => {
     });
   });
 });
-
-

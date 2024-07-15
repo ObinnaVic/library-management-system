@@ -1,20 +1,21 @@
 const express = require("express");
 const helmet = require("helmet");
 const httpStatus = require("http-status");
-const ApiError = require("./src/utils/ApiError.js");
+const ApiError = require("./utils/ApiError.js");
 const process = require("process");
-const db = require("./src/db.js");
+const db = require("./db.js");
 const cookieParser = require("cookie-parser");
-const AuthRoute = require("./src/modules/auth/auth.route.js");
-const BookRoutes = require("./src/modules/books/books.routes.js");
-const UserRoutes = require("./src/modules/user/user.routes.js");
-const RecordRoute = require("./src/modules/records/records.routes.js");
+const AuthRoute = require("./modules/auth/auth.route.js");
+const BookRoutes = require("./modules/books/books.routes.js");
+const UserRoutes = require("./modules/user/user.routes.js");
+const RecordRoute = require("./modules/records/records.routes.js");
 
 const app = express();
 (async () => {
   try {
     // MongoDB's configuration and connection
-    // await db.connectToDatabase(); //NOTE: Comment this connection out during testing
+    
+    await db.connectToDatabase(); //NOTE: Comment this connection out during testing
 
     // set security HTTP headers
     app.use(helmet());

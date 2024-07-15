@@ -1,6 +1,6 @@
 const request = require("supertest");
 const { connectToDatabase, disconnectDatabase } = require("../../db");
-const app = require("../../../index");
+const app = require("../../app");
 const { faker } = require("@faker-js/faker");
 const User = require("../user/user.model");
 const Book = require("../books/books.model");
