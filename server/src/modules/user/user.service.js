@@ -27,11 +27,15 @@ const queryUsers = async (filter, limit) => {
 };
 
 const getUserByEmail = async (userEmail) => {
-  const user = await User.findOne({ email: userEmail }).select("-password");
+  try {
+    const user = await User.findOne({ email: userEmail }).select("-password");
 
-  if (!user) throw new ApiError(404, "User not found");
+    if (!user) throw new ApiError(404, "User not found");
 
-  return user;
+    return user;
+  } catch (error) {
+    return error
+  }
 };
 
 const getUserById = async (userId) => {

@@ -2,6 +2,7 @@ const httpStatus = require("http-status");
 const userService = require("../user/user.service.js");
 const authService = require("./auth.service.js");
 const createToken = require("./jwt.service.js");
+const ApiError = require("../../utils/ApiError.js");
 
 const httpRegister = async (req, res) => {
   try {
@@ -23,6 +24,10 @@ const httpLogin = async (req, res) => {
       email,
       password
     );
+
+  if (user.statusCode == 401) {
+    throw new ApiError(401, "Unauthorized")
+  }
 
     const accessToken = createToken(user);
 

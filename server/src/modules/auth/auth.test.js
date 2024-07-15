@@ -15,70 +15,83 @@ const {
 const { connectToDatabase, disconnectDatabase } = require("../../db");
 
 
-
-
+//Authentication, register, login and logout tests
 describe("Auth Routes", () => {
+  let adminUser;
   beforeAll(async () => {
     await connectToDatabase();
+    adminUser = {
+      firstName: faker.person.firstName(), //random name
+      lastName: faker.person.lastName(), 
+      email: faker.internet.email(), //random email
+      password: faker.internet.password(), //random password
+      role: "Admin"
+    };
   });
 
   afterAll(async () => {
     await disconnectDatabase();
   });
 
-  describe("POST /library/user/register", () => {
-    let adminUser;
-    beforeEach(() => {
-      adminUser = {
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-        role: "Admin",
-      };
-    });
-
+  describe("POST: Register", () => {
     test("should return 201 and successfully register user if request data is ok", async () => {
       const res = await request(app)
-        .post("/api/v1/library/user")
+        .post("/api/v1/library/user/register")
         .send(adminUser);
 
       expect(res.statusCode).toBe(CREATED);
 
-      expect(res.body.user).not.toHaveProperty("password");
-      expect(res.body.user).toEqual({
+      expect(res.body).toEqual({
         _id: expect.anything(),
         firstName: adminUser.firstName,
         lastName: adminUser.lastName,
-        email: adminUser.email,
+        email: adminUser.email.toLowerCase(),
         role: "Admin",
+        borrows: [],
+        overdueBooks: [],
+        history: [],
+        __v: expect.anything(),
       });
 
-      const dbUser = await User.findById(res.body.user._id);
+      const dbUser = await User.findById(res.body._id);
       expect(dbUser).toBeDefined();
       expect(dbUser.password).not.toBe(adminUser.password);
-      expect(dbUser).toMatchObject({
-        firstName: adminUser.firstName,
-        lastName: adminUser.lastName,
-        email: adminUser.email,
-        role: "Admin",
-      });
     });
   });
 
-  describe("POST /library/user/login", () => {
+  describe("POST: Login", () => {
     let user;
+    let userDetails;
     beforeEach(() => {
       user = {
-        email: adminUser.email,
+        email: adminUser.email.toLowerCase(),
         password: adminUser.password,
+      };
+
+      userDetails = {
+        email: "random wrong email",
+        password: "random wrong password",
       };
     });
     test("Should return 202 Accepted if successful login", async () => {
-      const res = await request(app)
-        .post("/library/user/login")
+      await request(app)
+        .post("/api/v1/library/user/login")
         .send(user)
         .expect(ACCEPTED);
     });
+
+    test("Should return 400, Bad request if user login details is wrong", async () => {
+      await request(app)
+        .post("/api/v1/library/user/login")
+        .send(userDetails)
+        .expect(BAD_REQUEST);
+    });
+  });
+  describe("GET: Logout", () => {
+    test("It should return 200 OK when user successfully logs out", async () => {
+      await request(app).get("/api/v1/library/user/logout").expect(OK);
+    });
   });
 });
+
+

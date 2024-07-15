@@ -108,6 +108,7 @@ const userSchema = new Schema({
         );
       }
     },
+    private: true
   },
 
   role: {
@@ -129,6 +130,38 @@ const userSchema = new Schema({
     type: [historySchema]
   }
 });
+
+function excludePrivateFields(schema) {
+  schema.eachPath((path, schemaType) => {
+    if (schemaType.options && schemaType.options.private) {
+      schemaType.select(false);
+    }
+  });
+
+  schema.set("toJSON", {
+    transform: function (doc, ret, options) {
+      for (const path in schema.paths) {
+        if (schema.paths[path].options && schema.paths[path].options.private) {
+          delete ret[path];
+        }
+      }
+      return ret;
+    },
+  });
+
+  schema.set("toObject", {
+    transform: function (doc, ret, options) {
+      for (const path in schema.paths) {
+        if (schema.paths[path].options && schema.paths[path].options.private) {
+          delete ret[path];
+        }
+      }
+      return ret;
+    },
+  });
+}
+
+userSchema.plugin(excludePrivateFields);
 
 userSchema.methods.isEmailTaken = async function (email, excludeUserId) {  //check if email is unique before saving
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });

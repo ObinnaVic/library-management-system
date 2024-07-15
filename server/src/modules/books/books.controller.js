@@ -25,9 +25,9 @@ const httpAddNewBook = async (req, res) => {
 
     const success = await booksService.addNewBook(req.body);
 
-    res.status(httpStatus.ACCEPTED).json(success);
+    res.status(httpStatus.CREATED).json(success);
   } catch (error) {
-    res.status(httpStatus.BAD_REQUEST).json(error);
+    res.status(httpStatus.UNAUTHORIZED).json(error);
   }
 };
 
