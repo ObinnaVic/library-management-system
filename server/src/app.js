@@ -13,9 +13,6 @@ const RecordRoute = require("./modules/records/records.routes.js");
 const app = express();
 (async () => {
   try {
-    // MongoDB's configuration and connection
-    
-    // await db.connectToDatabase(); //NOTE: Comment this connection out during testing
 
     // set security HTTP headers
     app.use(helmet());

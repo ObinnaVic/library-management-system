@@ -31,6 +31,16 @@ const httpAddNewBook = async (req, res) => {
   }
 };
 
+//function to test add book end point
+const testAddNewBook = async (req, res) => {
+  try {
+    const success = await booksService.addNewBook(req.body);
+    res.status(httpStatus.CREATED).json(success);
+  } catch (error) {
+    res.status(httpStatus.BAD_REQUEST).json(error);
+  }
+}
+
 const httpQueryBooks = async (req, res) => {
   try {
     const filter = pick(req.query, [
@@ -49,22 +59,36 @@ const httpQueryBooks = async (req, res) => {
   }
 };
 
+
 const httpRemoveBook = async (req, res) => {
   try {
     const userRole = req.user.role;
-
+    
     if (userRole === "Member") {
       //Members cant remove books
       return res
-        .status(httpStatus.UNAUTHORIZED)
-        .json({ error: "User not Authorized" });
+      .status(httpStatus.UNAUTHORIZED)
+      .json({ error: "User not Authorized" });
     }
 
+    const { bookID } = req.params;
+    
+    const result = await booksService.removeBook(bookID);
+    
+    res.status(httpStatus.OK).json({result});
+  } catch (error) {
+    res.status(httpStatus.BAD_REQUEST).json(error);
+  }
+};
+
+//function to test Remove book end point
+const testRemoveBook = async (req, res) => {
+  try {
     const { bookID } = req.params;
 
     const result = await booksService.removeBook(bookID);
 
-    res.status(httpStatus.OK).json({result});
+    res.status(httpStatus.OK).json({ result });
   } catch (error) {
     res.status(httpStatus.BAD_REQUEST).json(error);
   }
@@ -91,6 +115,22 @@ const httpUpdateBook = async (req, res) => {
     res.status(httpStatus.BAD_REQUEST).json(error);
   }
 };
+
+//function to test Update book
+const testUpdateBook = async (req, res) => {
+  try {
+    const { bookID } = req.params;
+    const update = req.body;
+
+    const updated = await booksService.updateBook(bookID, update);
+
+    res.status(httpStatus.OK).json(updated);
+  } catch (error) {
+    res.status(httpStatus.BAD_REQUEST).json(error);
+  }
+};
+
+
 
 const httpBorrowBook = async (req, res) => {
   try {
@@ -155,6 +195,9 @@ const httpBookReview = async (req, res) => {
 };
 
 module.exports = {
+  testUpdateBook,
+  testRemoveBook,
+  testAddNewBook,
   httpGetAllBooks,
   httpAddNewBook,
   httpQueryBooks,

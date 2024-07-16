@@ -14,6 +14,15 @@ const booksController = require("./books.controller.js");
 
 const BookRoutes = express.Router();
 
+//Test Routes
+BookRoutes.route("/test").post(
+  validate(createBook),
+  booksController.testAddNewBook
+);
+BookRoutes.route("/test/:bookID")
+  .put(validate(updateBook), booksController.testUpdateBook)
+  .delete(validate(deleteBook), booksController.testRemoveBook);
+
 //routes to add new books and get all books
 BookRoutes.route("/")
   .post(validate(createBook), verifyToken, booksController.httpAddNewBook)
