@@ -1,5 +1,7 @@
 `PROJECT SUBMISSION OVERVIEW`
 
+`PLEASE NOTE:` Render is being used for api hosting and it is known to sleep down when requests are not made for awhile. In time of testing, Apis may not respond appropriately for the first few minutes.  
+
 This is my submission project of a library management system which aids the effective management of a library, its operations, its members and its book catalogs using its functionalities. The current possible functionalities of the system which I was able to implement within the stipulated project timeframe is as follows;
 1.	Registration of members, librarians and Admin.
 2.	Login of members, librarians and admin.
